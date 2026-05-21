@@ -1,50 +1,160 @@
-# Welcome to your Expo app 👋
+#  Smart AI Expense Tracker & Budgeting App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform mobile application built with **React Native (Expo)** and **Node.js + MongoDB** that helps users track, analyze, and manage their personal finances intelligently — with AI-driven auto-categorization, smart budgeting recommendations, and goal planning.
 
-## Get started
+---
 
-1. Install dependencies
+##  Features
 
-   ```bash
-   npm install
-   ```
+- **AI-Driven Auto Categorization** — Automatically categorizes expenses (Food, Transport, Shopping, Bills, Entertainment) based on the expense title using rule-based AI logic
+- **Smart Recommendations** — Analyzes spending patterns and provides personalized cost-saving tips (e.g., reducing café spending, switching to public transport)
+- **Financial Insights** — Visual breakdown of expenses by category using interactive Pie Charts
+- **Goal Planning** — Set financial goals with a target amount and deadline
+- **Transaction History** — View and manage all recorded expenses
+- **Dark / Light Mode** — Fully themed UI supporting both modes across all screens
+- **RESTful API Backend** — Node.js + Express backend with MongoDB for persistent data storage
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+##  Tech Stack
 
-In the output, you'll find options to open the app in a
+| Layer | Technology |
+|---|---|
+| Frontend | React Native, Expo Router, TypeScript |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| AI Logic | Rule-based categorization & recommendation engine |
+| Charts | react-native-chart-kit (PieChart) |
+| API Testing | Thunder Client |
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+##  Project Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+smart-expense-tracker/
+│
+├── app/
+│   └── (tabs)/
+│       ├── index.tsx           # Home screen
+│       ├── dashboard.tsx       # Dashboard with AI insights
+│       ├── add-expense.tsx     # Add new expense
+│       ├── transactions.tsx    # Transaction history
+│       ├── insights.tsx        # Charts & financial analytics
+│       └── goal.tsx            # Goal planning
+│
+├── backend/
+│   ├── ai/
+│   │   ├── categorizer.js      # AI auto-categorization logic
+│   │   └── recommendations.js  # Smart recommendation engine
+│   ├── controllers/
+│   │   ├── expenseController.js
+│   │   └── goalController.js
+│   ├── models/
+│   │   ├── Expense.js          # Mongoose expense schema
+│   │   └── Goal.js             # Mongoose goal schema
+│   └── .env                    # Environment variables
+│
+└── assets/                     # App icons & images
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+##  How the AI Logic Works
 
-To learn more about developing your project with Expo, look at the following resources:
+### Auto Categorization
+When a user adds an expense, the title is matched against keyword rules to assign a category automatically — no manual selection needed.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+| Keywords Detected | Category Assigned |
+|---|---|
+| uber, ola, bus | Transport |
+| cafe, coffee, zomato, swiggy | Food |
+| amazon, flipkart, myntra | Shopping |
+| netflix, spotify | Entertainment |
+| rent, electricity | Bills |
+| anything else | Others |
 
-## Join the community
+### Smart Recommendations
+The recommendation engine analyzes monthly spending data and generates personalized tips:
+- If food spending exceeds **40%** of total → suggests reducing café visits
+- If transport cost exceeds **₹2000** → suggests public transport or carpooling
+- If total spending exceeds set budget → alerts to cut non-essential expenses
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+##  Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- MongoDB (local or Atlas)
+- Expo CLI
+- Expo Go app on your phone
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/smart-expense-tracker.git
+cd smart-expense-tracker
+```
+
+### 2. Setup Backend
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file in the `/backend` directory:
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+```
+
+Start the backend server:
+```bash
+node server.js
+```
+
+### 3. Setup Frontend
+```bash
+cd ..
+npm install
+npx expo start
+```
+
+Scan the QR code with **Expo Go** on your phone to run the app.
+
+---
+
+##  Screens Overview
+
+| Screen | Description |
+|---|---|
+| Dashboard | Overview of recent expenses + AI tips |
+| Add Expense | Input expense title & amount — category auto-assigned |
+| Transactions | Full history of all expenses |
+| Insights | Pie chart breakdown + AI smart tips by month |
+| Goals | Set and track financial saving goals |
+
+---
+
+##  API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/expenses` | Fetch all expenses |
+| POST | `/api/expenses` | Add new expense (AI auto-categorizes) |
+| GET | `/api/insights` | Get monthly analytics + recommendations |
+| POST | `/api/goals` | Add a new financial goal |
+| GET | `/api/goals` | Fetch all goals |
+
+---
+
+##  Screens Overview
+<img width="738" height="1600" alt="1" src="https://github.com/user-attachments/assets/75e9cd3c-b178-47e9-9e68-6215d12baf80" />
+<img width="738" height="1600" alt="11" src="https://github.com/user-attachments/assets/a8a9a166-7b55-4d46-91df-6a766751b1ee" />
+<img width="738" height="1600" alt="9" src="https://github.com/user-attachments/assets/ff128d62-b11e-461f-8dcb-36e6fbe1d1a8" />
+<img width="738" height="1600" alt="7" src="https://github.com/user-attachments/assets/bb64dc27-e497-49c4-8730-803cd63a79a2" />
+<img width="738" height="1600" alt="5" src="https://github.com/user-attachments/assets/0e4591d1-1c39-46ab-95f5-8ac404dce9d7" />
+<img width="1080" height="2340" alt="3" src="https://github.com/user-attachments/assets/42caa6b3-be83-4550-9abf-3a6b858f9f0d" />
+
+
+
