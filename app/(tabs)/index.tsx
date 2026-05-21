@@ -1,98 +1,150 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { useRouter, useFocusEffect } from "expo-router";
+import { useState, useCallback } from "react";
+import { Expense } from "../../types/Expense";
+import { EXPENSES_API } from "@/constants/api";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function Home() {
+  const router = useRouter();
+  const [isDark, setIsDark] = useState(false);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
-export default function HomeScreen() {
+  const fetchExpenses = async () => {
+    try {
+      const response = await fetch(EXPENSES_API);
+      const data = await response.json();
+      setExpenses(data.slice(0, 5)); // ✅ recent 5
+    } catch (error) {
+      console.log("Error fetching expenses", error);
+    }
+  };
+
+  // 🔥 refresh when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      fetchExpenses();
+    }, [])
+  );
+
+  const colors = {
+    bg: isDark ? "#0F172A" : "#F1F5F9",
+    card: isDark ? "#1E293B" : "#FFFFFF",
+    text: isDark ? "#FFFFFF" : "#0F172A",
+    textLight: isDark ? "#CBD5E1" : "#475569",
+    button: isDark ? "#222222" : "#22C55E",
+    buttonText: "#FFFFFF",
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
+      {/* Dark Mode Toggle */}
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          onPress={() => setIsDark(!isDark)}
+          style={[
+            styles.themeToggle,
+            { backgroundColor: isDark ? "#FFFFFF" : "#000000" },
+          ]}
+        >
+          <Text
+            style={{
+              color: isDark ? "#000000" : "#FFFFFF",
+              fontSize: 14,
+              fontWeight: "600",
+            }}
+          >
+            {isDark ? "☀ Light" : "🌙 Dark"}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <Text style={[styles.title, { color: colors.text }]}>
+        Smart AI Expense Tracker & Budgeting App
+      </Text>
+
+      <Text style={[styles.subtitle, { color: colors.textLight }]}>
+        Control your money, intelligently
+      </Text>
+
+      <View style={[styles.card, { backgroundColor: colors.card }]}>
+        <Text style={[styles.cardTitle, { color: colors.text }]}>
+          Start Tracking
+        </Text>
+
+        <Text style={{ color: colors.textLight, marginBottom: 20 }}>
+          Log expenses and get AI-powered insights.
+        </Text>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: colors.button }]}
+          onPress={() => router.push("/add-expense")}
+        >
+          <Text style={styles.buttonText}>➕ Add Expense</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={[styles.listTitle, { color: colors.text }]}>
+        Recent Expenses
+      </Text>
+
+      <FlatList
+        data={expenses}
+        keyExtractor={(item) => item._id}
+        ListEmptyComponent={
+          <Text style={{ color: colors.textLight, textAlign: "center" }}>
+            No expenses added yet
+          </Text>
+        }
+        renderItem={({ item }) => (
+          <View style={[styles.expenseItem, { backgroundColor: colors.card }]}>
+            <View>
+              <Text style={{ color: colors.text, fontWeight: "600" }}>
+                {item.title}
+              </Text>
+              <Text style={{ color: colors.textLight, fontSize: 12 }}>
+                {item.category ?? "General"} •{" "}
+                {item.createdAt
+                  ? new Date(item.createdAt).toDateString()
+                  : ""}
+              </Text>
+            </View>
+            <Text style={{ color: "#EF4444", fontWeight: "bold" }}>
+              ₹{item.amount}
+            </Text>
+          </View>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: { flex: 1, padding: 20, paddingTop: 100 },
+  topBar: { position: "absolute", top: 60, right: 20, zIndex: 10 },
+  themeToggle: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    elevation: 4,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: { fontSize: 26, fontWeight: "bold", textAlign: "center" },
+  subtitle: { textAlign: "center", marginBottom: 20 },
+  card: { padding: 24, borderRadius: 20, marginBottom: 20 },
+  cardTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 8 },
+  button: { padding: 14, borderRadius: 14, alignItems: "center" },
+  buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  listTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+  expenseItem: {
+    padding: 14,
+    borderRadius: 14,
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
