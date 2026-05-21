@@ -149,12 +149,12 @@ Scan the QR code with **Expo Go** on your phone to run the app.
 ---
 
 ##  Screens Overview
-<img width="250" height="300" alt="1" src="https://github.com/user-attachments/assets/75e9cd3c-b178-47e9-9e68-6215d12baf80" />
-<img width="250" height="300" alt="11" src="https://github.com/user-attachments/assets/a8a9a166-7b55-4d46-91df-6a766751b1ee" />
-<img width="250" height="300" alt="9" src="https://github.com/user-attachments/assets/ff128d62-b11e-461f-8dcb-36e6fbe1d1a8" />
-<img width="250" height="300" alt="7" src="https://github.com/user-attachments/assets/bb64dc27-e497-49c4-8730-803cd63a79a2" />
-<img width="250" height="300" alt="5" src="https://github.com/user-attachments/assets/0e4591d1-1c39-46ab-95f5-8ac404dce9d7" />
-<img width="250" height="300" alt="3" src="https://github.com/user-attachments/assets/42caa6b3-be83-4550-9abf-3a6b858f9f0d" />
+<img width="250" height="350" alt="1" src="https://github.com/user-attachments/assets/75e9cd3c-b178-47e9-9e68-6215d12baf80" />
+<img width="250" height="350" alt="11" src="https://github.com/user-attachments/assets/a8a9a166-7b55-4d46-91df-6a766751b1ee" />
+<img width="250" height="350" alt="9" src="https://github.com/user-attachments/assets/ff128d62-b11e-461f-8dcb-36e6fbe1d1a8" />
+<img width="250" height="350" alt="7" src="https://github.com/user-attachments/assets/bb64dc27-e497-49c4-8730-803cd63a79a2" />
+<img width="250" height="350" alt="5" src="https://github.com/user-attachments/assets/0e4591d1-1c39-46ab-95f5-8ac404dce9d7" />
+<img width="250" height="350" alt="3" src="https://github.com/user-attachments/assets/42caa6b3-be83-4550-9abf-3a6b858f9f0d" />
 
 
 
